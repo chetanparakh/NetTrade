@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <link rel="icon" href="../../favicon.ico">
+
+  <title>NetTrade</title>
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <link rel="stylesheet" type="text/css" href="/css/slick.css"/>
+  <link rel="stylesheet" type="text/css" href="/css/slick-theme.css"/>
+  <link rel="stylesheet" type="text/css" href="/css/itemdetails.css"/>
+  <link rel="stylesheet" type="text/css" href="/css/bootstrap-social.css">
+  <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+
+
+
+  {{#if ishomepage}}
+  <style>body { padding-top: 0px; }</style>
+  {{else}}
+  <style>body { padding-top: 70px;}</style>
+  {{/if}}
+
+</head>
+
+<body>
+
+  <!-- Fixed navbar -->
+  <nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="/">NetTrade</a>
+      </div>
+      <div id="navbar" class="navbar-collapse collapse">
+        <ul class="nav navbar-nav">
+          <form method="POST" action="http://localhost:8080/search" class="navbar-form navbar-left" role="search">
+            <div class="form-group">
+              <div class="input-group">
+                <div class="input-group-btn search-panel">
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                      {{#if search_category}}
+                    	  <span id="search_concept">{{search_category}}</span><span class="caret"></span>
+                      {{else}}
+                    	  <span id="search_concept">All</span><span class="caret"></span>
+                      {{/if}}
+                    </button>
+                    <ul class="dropdown-menu" role="menu">
+                      <li><a href="#All">All</a></li>
+                      <li><a href="#Clothes">Clothes</a></li>
+                      <li><a href="#Electronics">Electronics</a></li>
+                      <li><a href="#Home">Home</a></li>
+                    </ul>
+                </div>
+                {{#if search_category}}
+                  <input type="hidden" name="searchCategory" value="{{search_category}}" id="searchCategory">
+                {{else}}
+                  <input type="hidden" name="searchCategory" value="All" id="searchCategory">
+                {{/if}}
+                <input type="text" class="form-control" name="searchText" placeholder="Search"
+                value="{{search_query}}">
+                <span class="input-group-btn">
+                    <button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search"></span></button>
+                </span>
+            </div>
+          </form>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+          {{#if user}}
+            <li style="padding-right : 5px">
+              <div class="navbar-btn">
+                <a href="/addproduct" class="btn btn-default">
+                  <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>Add Product
+                </a>
+              </div>
+            </li>
+            <li>
+              <div class="dropdown">
+                <button class="btn btn-default navbar-btn dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                  {{user.displayName}}
+                  <span class="caret"></span>
+               </button>
+               <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                 <li><a href="/userprofile">My Account</a></li>
+                 <li><a href="/myitems">Your Items</a></li>
+                 <li><a href="/logout">Log Out</a></li>
+              </ul>
+             </div>
+          </li>
+          {{else}}
+          <li>
+            <div class="dropdown">
+              <button class="btn btn-default navbar-btn dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                Sign In
+                <span class="caret"></span>
+              </button>
+             <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+               <li style="padding: 3px;">
+                 <a href="/auth/google">
+                   <button class="btn btn-block btn-social btn-google">
+                     <span class="fa fa-google"></span>Sign in with Google
+                   </button>
+                 </a>
+               </li>
+               <li style="padding: 3px;">
+                 <a href="/auth/facebook">
+                   <button class="btn btn-block btn-social btn-facebook">
+                     <span class="fa fa-facebook"></span>Sign in with Facebook
+                   </button>
+                 </a>
+               </li>
+            </ul>
+           </div>
+         </li>
+          {{/if}}
+        </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+    {{#if ishomepage}}
+    <div class="container-fluid" style="padding:0px">
+      <link rel="stylesheet" type="text/css" href="css/home.css"/>
+      <div class="video-section">
+
+        <video id="video-elem" preload="auto" autoplay="true" loop="loop" muted="muted" poster="https://drive.google.com/open?id=0Bytx2maNMTfQRE1YYnYyb1ViQ3M">
+          <source src="video.mp4" type="video/mp4">
+            Video not supported
+          </video>
+
+          <div class="video-overlay">
+            <h1>One stop shopping for your necessities.</h1>
+          </div>
+        </div>
+    </div>
+    {{/if}}
+
+    <div class="container">
+      {{{body}}}
+    </div> <!-- /container -->
+
+    <footer>
+        <div class="footer" id="footer">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-2  col-md-2 col-sm-4 col-xs-6">
+                        <h3> Get to know us </h3>
+                        <ul>
+                            <li> <a href="#"> Careers </a> </li>
+                            <li> <a href="#"> About Nettrade </a> </li>
+                            <li> <a href="#"> Investor Relations </a> </li>
+                            <li> <a href="#"> Help </a> </li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-2  col-md-2 col-sm-4 col-xs-6">
+                        <h3> Make Money </h3>
+                        <ul>
+                            <li> <a href="#"> Sell on Nettrade </a> </li>
+                            <li> <a href="#"> Become an Affiliate </a> </li>
+                            <li> <a href="#"> Advertise your Products </a> </li>
+                            <li> <a href="#"> > See all </a> </li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-2  col-md-2 col-sm-4 col-xs-6">
+                        <h3> Tools and Apps </h3>
+                        <ul>
+                            <li> <a href="#"> Mobile apps </a> </li>
+                            <li> <a href="#"> Downloads </a> </li>
+                            <li> <a href="#"> Developers </a> </li>
+                            <li> <a href="#"> Security Center </a> </li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-2  col-md-2 col-sm-4 col-xs-6">
+                        <h3> Assistance</h3>
+                        <ul>
+                            <li> <a href="#"> Resolution Center </a> </li>
+                            <li> <a href="#"> Money Back Guarantee </a> </li>
+                            <li> <a href="#"> Seller Center </a> </li>
+                            <li> <a href="#"> Discussion Boards </a> </li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-3  col-md-3 col-sm-6 col-xs-12 ">
+                        <h3> Subscribe: </h3>
+                        <ul>
+                            <li>
+                                <div class="input-append newsletter-box text-center">
+                                    <input type="text" class="full text-center" placeholder="Email ">
+                                    <button class="btn  bg-gray" type="button"> Submit <i class="fa fa-long-arrow-right"> </i> </button>
+                                </div>
+                            </li>
+                        </ul>
+                        <ul class="social">
+                            <li> <a href="#"> <i class=" fa fa-facebook">   </i> </a> </li>
+                            <li> <a href="#"> <i class="fa fa-twitter">   </i> </a> </li>
+                            <li> <a href="#"> <i class="fa fa-google-plus">   </i> </a> </li>
+                            <li> <a href="#"> <i class="fa fa-pinterest">   </i> </a> </li>
+                            <li> <a href="#"> <i class="fa fa-youtube">   </i> </a> </li>
+                        </ul>
+                    </div>
+                </div>
+                <!--/.row-->
+            </div>
+            <!--/.container-->
+        </div>
+        <!--/.footer-->
+
+        <div class="footer-bottom">
+            <div class="container">
+                <p class="pull-left"> Copyright © 2017 Nettrade. All rights reserved. </p>
+                <div class="pull-right">
+                    <ul class="nav nav-pills payments">
+                        <li><i class="fa fa-cc-visa"></i></li>
+                        <li><i class="fa fa-cc-mastercard"></i></li>
+                        <li><i class="fa fa-cc-amex"></i></li>
+                        <li><i class="fa fa-cc-paypal"></i></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!--/.footer-bottom-->
+    </footer>
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script type="text/javascript" src="/js/validator.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+    <script type="text/javascript" src="js/slick.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
+    <script type="text/javascript">
+      $(document).ready(function(e){
+        $('.search-panel .dropdown-menu').find('a').click(function(e) {
+  		    e.preventDefault();
+  		    var param = $(this).attr("href").replace("#","");
+  		    var concept = $(this).text();
+  		    $('.search-panel span#search_concept').text(concept);
+  		    $('.input-group #searchCategory').val(param);
+          $('#searchCategory').val(concept);
+  	    });
+      });
+    </script>
+    <script>
+    $(document).ready(function(){
+      $('.clothing').slick({
+        slidesToShow: 6,
+        slidesToScroll: 6,
+        responsive: [
+          {
+            breakpoint: 1170,
+            settings: {
+              slidesToShow: 6,
+              slidesToScroll: 1
+            }
+          },
+          {
+            breakpoint: 970,
+            settings: {
+              slidesToShow: 4,
+              slidesToScroll: 1
+            }
+          },
+          {
+            breakpoint: 750,
+            settings: {
+              slidesToShow: 3,
+              slidesToScroll: 1
+            }
+          }
+        ]
+      });
+    })
+    </script>
+  </body>
+</html>
